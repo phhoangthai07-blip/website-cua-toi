@@ -1,180 +1,313 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+questions = [
+# Kỹ năng / Tướng
+("Tướng","Chiêu cuối của Ryoma có tên là gì?",["Loạn Trảm","Nhất Kích Tất Sát","Thần Hành Bách Biến","Kiếm Quyết"],0),
+("Tướng","Chiêu 2 của Ryoma có tên là gì?",["Nhất Kích Tất Sát","Loạn Trảm","Kiếm Quyết","Thần Hành Bách Biến"],0),
+("Tướng","Nội tại của Ryoma có tên là gì?",["Kiếm Quyết","Loạn Trảm","Sát khí","Ám khí"],0),
+("Tướng","Chiêu cuối của Raz có tên là gì?",["Tả Xung Hữu Đột","Cú Đấm Chân Không","Quả Cầu Hư Không","Không Kích"],0),
+("Tướng","Chiêu 1 của Nakroth có tên là gì?",["Bồi thẩm đoàn","Nguồn cơn rắc rối","Gươm hành quyết","Thẩm phán oai nghiêm"],0),
+("Tướng","Chiêu 2 của Nakroth có tên là gì?",["Nguồn cơn rắc rối","Bồi thẩm đoàn","Gươm hành quyết","Thẩm phán oai nghiêm"],0),
+("Tướng","Chiêu cuối của Nakroth có tên là gì?",["Gươm hành quyết","Bồi thẩm đoàn","Nguồn cơn rắc rối","Thẩm phán oai nghiêm"],0),
+("Tướng","Nội tại của Nakroth có tên là gì?",["Thẩm phán oai nghiêm","Gươm hành quyết","Sát khí","Ảnh Hồn"],0),
+("Tướng","Nội tại của Murad có tên là gì?",["Ảnh Hồn","Tàn Ảnh Đao","Vô Ảnh Vực","Ảo Ảnh Trảm"],0),
+("Tướng","Chiêu 1 của Murad có tên là gì?",["Tàn Ảnh Đao","Ảnh Hồn","Vô Ảnh Vực","Ảo Ảnh Trảm"],0),
+("Tướng","Chiêu 2 của Murad có tên là gì?",["Vô Ảnh Vực","Tàn Ảnh Đao","Ảo Ảnh Trảm","Ảnh Hồn"],0),
+("Tướng","Chiêu cuối của Murad có tên là gì?",["Ảo Ảnh Trảm","Vô Ảnh Vực","Tàn Ảnh Đao","Ảnh Hồn"],0),
+("Tướng","Nội tại của Grakk có tên là gì?",["Huyết Tế","Càn Quét","Xích Ma Quái","Nuốt Chửng"],0),
+("Tướng","Chiêu 2 của Grakk có tên là gì?",["Xích Ma Quái","Càn Quét","Nuốt Chửng","Huyết Tế"],0),
+("Tướng","Chiêu cuối của Grakk có tên là gì?",["Nuốt Chửng","Xích Ma Quái","Càn Quét","Huyết Tế"],0),
+("Tướng","Nội tại của Omen có tên là gì?",["Sát khí","Sát kiếm","Sát niệm","Sát vực"],0),
+("Tướng","Chiêu 1 của Omen có tên là gì?",["Sát kiếm","Sát niệm","Sát vực","Sát khí"],0),
+("Tướng","Chiêu cuối của Omen có tên là gì?",["Sát vực","Sát kiếm","Sát niệm","Sát khí"],0),
+("Tướng","Nội tại của Valhein có tên là gì?",["Ám khí","Chuyến săn mạo hiểm","Lời nguyền tử vong","Bão đạn"],0),
+("Tướng","Chiêu 2 của Valhein có tên là gì?",["Lời nguyền tử vong","Bão đạn","Ám khí","Chuyến săn mạo hiểm"],0),
+("Tướng","Chiêu cuối của Valhein có tên là gì?",["Bão đạn","Lời nguyền tử vong","Ám khí","Chuyến săn mạo hiểm"],0),
+("Tướng","Nội tại của Hayate có tên là gì?",["Phản ứng dây chuyền","Chuỗi phi tiêu","Ảnh biến","Bão phi tiêu"],0),
+("Tướng","Chiêu 2 của Hayate có tên là gì?",["Ảnh biến","Chuỗi phi tiêu","Bão phi tiêu","Phản ứng dây chuyền"],0),
+("Tướng","Chiêu cuối của Hayate có tên là gì?",["Bão phi tiêu","Ảnh biến","Chuỗi phi tiêu","Phản ứng dây chuyền"],0),
+("Tướng","Nội tại của Violet có tên là gì?",["Nạp đạn","Đạn xuyên thấu","Lựu đạn nổ","Pháo đại"],0),
+("Tướng","Chiêu 1 của Violet có tên là gì?",["Đạn xuyên thấu","Nạp đạn","Lựu đạn nổ","Pháo đại"],0),
+("Tướng","Chiêu cuối của Violet có tên là gì?",["Pháo đại","Lựu đạn nổ","Đạn xuyên thấu","Nạp đạn"],0),
+("Tướng","Chiêu cuối của Keera có tên là gì?",["Truy sát","Tử vong hữu ảnh","Ám sát","Hắc ám"],0),
+("Tướng","Chiêu cuối của Zata có tên là gì?",["Thiên dực","Phong sát","Vũ điệu tử thần","Không kích"],0),
+("Tướng","Chiêu 2 của Veera có tên là gì?",["Hôn gió","Tiểu quỷ","Dơi địa ngục","Mê hoặc"],0),
+
+# Bổ trợ
+("Bổ trợ","Phép bổ trợ nào giúp tướng dịch chuyển nhanh một đoạn ngắn?",["Tốc Biến","Trừng Trị","Thanh Tẩy","Cấp Cứu"],0),
+("Bổ trợ","Phép bổ trợ nào thường được dùng để đi rừng?",["Trừng Trị","Tốc Biến","Cấp Cứu","Tốc Hành"],0),
+("Bổ trợ","Phép bổ trợ nào có tác dụng giải hiệu ứng khống chế?",["Thanh Tẩy","Tốc Biến","Trừng Trị","Bộc Phá"],0),
+("Bổ trợ","Phép bổ trợ nào thiên về hồi phục cho bản thân và đồng đội?",["Cấp Cứu","Tốc Biến","Trừng Trị","Gầm Thét"],0),
+("Bổ trợ","Phép bổ trợ nào gây sát thương lên tướng địch khi dùng ở cự ly phù hợp?",["Bộc Phá","Tốc Hành","Thanh Tẩy","Cấp Cứu"],0),
+("Bổ trợ","Phép bổ trợ nào giúp tăng tốc độ di chuyển?",["Tốc Hành","Trừng Trị","Thanh Tẩy","Bộc Phá"],0),
+("Bổ trợ","Phép bổ trợ nào làm giảm khả năng gây sát thương của kẻ địch?",["Suy Nhược","Tốc Biến","Trừng Trị","Cấp Cứu"],0),
+("Bổ trợ","Phép bổ trợ nào có tên tiếng Việt là 'Gầm Thét'?",["Gầm Thét","Ngất Ngư","Suy Nhược","Bộc Phá"],0),
+("Bổ trợ","Phép bổ trợ nào có tên tiếng Việt là 'Ngất Ngư'?",["Ngất Ngư","Gầm Thét","Tốc Hành","Thanh Tẩy"],0),
+("Bổ trợ","Một người chơi đi rừng thường cần phép bổ trợ nào?",["Trừng Trị","Cấp Cứu","Bộc Phá","Gầm Thét"],0),
+
+# Trang bị
+("Trang bị","Trang bị nào có 90 công vật lý, 10% hút máu và 10% chí mạng theo dữ liệu Garena?",["Cung tà ma","Thánh kiếm","Nanh Fenrir","Xạ nhật cung"],0),
+("Trang bị","Trang bị nào có 180 công vật lý và tăng sát thương khi mục tiêu dưới 50% HP?",["Nanh Fenrir","Cung tà ma","Kiếm Fafnir","Găng tay"],0),
+("Trang bị","Trang bị nào có 35% tốc đánh và 25% chí mạng?",["Song đao bão táp","Thánh kiếm","Xạ nhật cung","Cung tà ma"],0),
+("Trang bị","Trang bị nào tăng 40% sát thương chí mạng?",["Thánh kiếm","Nanh Fenrir","Song đao bão táp","Vuốt hung tàn"],0),
+("Trang bị","Trang bị nào có 30% tốc đánh, 10% chí mạng và 5% tốc chạy?",["Xạ nhật cung","Thánh kiếm","Cung tà ma","Thương Longinus"],0),
+("Trang bị","Trang bị nào có 60 công vật lý, 30% tốc đánh và 10% hút máu?",["Kiếm Fafnir","Cung tà ma","Nanh Fenrir","Thương Xuyên Phá"],0),
+("Trang bị","Trang bị nào có khả năng làm giảm hồi phục của mục tiêu?",["Đao Truy Hồn","Thánh kiếm","Găng tay","Xạ nhật cung"],0),
+("Trang bị","Trang bị nào có 80 công vật lý, 15% giảm hồi chiêu và 500 HP?",["Thương Longinus","Cung tà ma","Thánh kiếm","Nanh Fenrir"],0),
+("Trang bị","Trang bị nào có 110 công vật lý và xuyên giáp cố định?",["Thương Xuyên Phá","Găng tay","Kiếm Fafnir","Đao Truy Hồn"],0),
+("Trang bị","Trang bị nào cho 8% chí mạng?",["Găng tay","Thánh kiếm","Song đao bão táp","Xạ nhật cung"],0),
+("Trang bị","Trang bị nào có 30% tốc đánh, 20% chí mạng và 5% tốc chạy?",["Vuốt hung tàn","Xạ nhật cung","Thánh kiếm","Cung tà ma"],0),
+("Trang bị","Trang bị nào có 100 công vật lý, 10% giảm hồi chiêu và 500 HP?",["Thương khung kiếm","Thương Longinus","Nanh Fenrir","Thương Xuyên Phá"],0),
+
+# Cơ chế
+("Cơ chế","Trong trận, mục tiêu chính của đội là gì?",["Phá nhà chính đối phương","Có nhiều trang bị nhất","Có nhiều mạng nhất","Farm nhiều nhất"],0),
+("Cơ chế","Một trận Liên Quân thường được chia thành những vị trí/đường nào?",["Đường Caesar, đường giữa, đường Rồng và rừng","Chỉ có 1 đường","Chỉ có 2 đường","Chỉ có đường giữa"],0),
+("Cơ chế","Tướng đi rừng thường có nhiệm vụ gì?",["Ăn quái rừng và hỗ trợ các đường","Chỉ đứng ở đường giữa","Chỉ phá trụ","Chỉ mua trang bị"],0),
+("Cơ chế","Xạ thủ thường ưu tiên chỉ số nào?",["Công vật lý, tốc đánh và chí mạng","Giáp và kháng phép","Chỉ HP","Chỉ giảm hồi chiêu"],0),
+("Cơ chế","Pháp sư thường gây sát thương chủ yếu bằng gì?",["Sát thương phép","Đòn đánh vật lý","Chỉ đòn đánh thường","Sát thương từ trụ"],0),
+("Cơ chế","Đỡ đòn thường ưu tiên điều gì?",["Khả năng chống chịu","Chí mạng","Tốc đánh","Xuyên giáp"],0),
+("Cơ chế","Khống chế có thể dùng để làm gì?",["Hạn chế hành động của đối phương","Tăng vàng trực tiếp","Phá game","Tăng số lượng tướng"],0),
+("Cơ chế","Farm lính thường giúp tướng nhận được gì?",["Vàng và kinh nghiệm","Chỉ tốc chạy","Chỉ hồi máu","Chỉ chí mạng"],0),
+("Cơ chế","Phá trụ giúp đội có lợi thế gì?",["Mở rộng khu vực kiểm soát và tiến gần nhà chính","Làm mất toàn bộ kỹ năng","Reset trận đấu","Đổi tướng"],0),
+("Cơ chế","Khi một tướng lên cấp, điều gì thường được cải thiện?",["Có thể nâng kỹ năng và tăng sức mạnh","Bị giảm vàng","Mất trang bị","Mất phép bổ trợ"],0),
+("Cơ chế","Bản đồ 5v5 có bao nhiêu đội?",["2","3","4","5"],0),
+("Cơ chế","Mỗi đội trong chế độ 5v5 thường có bao nhiêu người chơi?",["5","3","4","6"],0),
+("Cơ chế","Khi không chắc chắn về vị trí của đối thủ, cách chơi nào an toàn hơn?",["Kiểm soát tầm nhìn và tránh đi quá cao","Một mình lao vào rừng địch","Bỏ qua bản đồ","Đứng yên tại nhà"],0),
+("Cơ chế","Tầm nhìn giúp người chơi làm gì?",["Theo dõi vị trí và hoạt động của đối phương","Tăng dung lượng máy","Đổi tên tướng","Thay máy chủ"],0),
+("Cơ chế","Mục tiêu lớn trên bản đồ thường có giá trị gì?",["Tạo lợi thế cho đội khi kiểm soát","Chỉ để trang trí","Không ảnh hưởng trận đấu","Luôn làm mất máu đồng đội"],0),
+
+# Thử thách
+("Thử thách","Tướng nào có chiêu cuối 'Ảo Ảnh Trảm'?",["Murad","Nakroth","Ryoma","Omen"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Gươm hành quyết'?",["Nakroth","Murad","Grakk","Valhein"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Nuốt Chửng'?",["Grakk","Omen","Ryoma","Raz"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Sát vực'?",["Omen","Valhein","Violet","Hayate"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Bão đạn'?",["Valhein","Violet","Hayate","Raz"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Bão phi tiêu'?",["Hayate","Violet","Valhein","Murad"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Pháo đại'?",["Violet","Hayate","Valhein","Keera"],0),
+("Thử thách","Tướng nào có chiêu cuối 'Tả Xung Hữu Đột'?",["Raz","Ryoma","Nakroth","Murad"],0),
+("Thử thách","Tướng nào có nội tại 'Kiếm Quyết'?",["Ryoma","Omen","Murad","Grakk"],0),
+("Thử thách","Tướng nào có nội tại 'Sát khí'?",["Omen","Ryoma","Valhein","Hayate"],0),
+("Thử thách","Tướng nào có nội tại 'Ám khí'?",["Valhein","Violet","Hayate","Grakk"],0),
+("Thử thách","Tướng nào có nội tại 'Nạp đạn'?",["Violet","Valhein","Ryoma","Omen"],0),
+("Thử thách","Tướng nào có nội tại 'Ảnh Hồn'?",["Murad","Keera","Nakroth","Zata"],0),
+("Thử thách","Tướng nào có nội tại 'Huyết Tế'?",["Grakk","Omen","Murad","Raz"],0),
+("Thử thách","Tướng nào có nội tại 'Phản ứng dây chuyền'?",["Hayate","Violet","Valhein","Zata"],0),
+("Thử thách","Tướng nào có chiêu 2 'Hôn gió'?",["Veera","Violet","Hayate","Raz"],0),
+("Thử thách","Tướng nào có thể dùng 'Ảnh biến' để vượt địa hình?",["Hayate","Valhein","Omen","Grakk"],0),
+("Thử thách","Tướng nào có chiêu 1 'Đạn xuyên thấu'?",["Violet","Hayate","Valhein","Ryoma"],0),
+("Thử thách","Tướng nào có chiêu 1 'Tàn Ảnh Đao'?",["Murad","Nakroth","Keera","Zata"],0),
+("Thử thách","Tướng nào có chiêu 2 'Xích Ma Quái'?",["Grakk","Omen","Murad","Raz"],0),
+("Thử thách","Tướng nào có chiêu 1 'Sát kiếm'?",["Omen","Ryoma","Nakroth","Valhein"],0),
+("Thử thách","Tướng nào có chiêu 2 'Lời nguyền tử vong'?",["Valhein","Violet","Hayate","Veera"],0),
+("Thử thách","Tướng nào có chiêu 2 'Nguồn cơn rắc rối'?",["Nakroth","Murad","Omen","Grakk"],0),
+("Thử thách","Tướng nào có chiêu 2 'Vô Ảnh Vực'?",["Murad","Nakroth","Ryoma","Keera"],0),
+]
+
+# Expand to 120 by generating additional safe conceptual questions from the same pool.
+extra = [
+("Bổ trợ","Nếu muốn cơ động hơn khi di chuyển giữa các khu vực, phép nào phù hợp với mô tả này?",["Tốc Hành","Trừng Trị","Cấp Cứu","Bộc Phá"],0),
+("Bổ trợ","Tên nào sau đây là một phép bổ trợ trong danh sách của HT Quiz AOV?",["Thanh Tẩy","Kiếm Quyết","Ảo Ảnh Trảm","Nạp đạn"],0),
+("Bổ trợ","Tên nào sau đây KHÔNG phải tên một phép bổ trợ?",["Kiếm Quyết","Tốc Biến","Trừng Trị","Thanh Tẩy"],0),
+("Bổ trợ","Người chơi muốn giải khống chế nên cân nhắc phép nào?",["Thanh Tẩy","Tốc Hành","Gầm Thét","Bộc Phá"],0),
+("Cơ chế","Vàng có thể dùng để làm gì?",["Mua trang bị","Đổi đội","Đổi bản đồ","Tăng số người chơi"],0),
+("Cơ chế","Kinh nghiệm chủ yếu giúp tướng làm gì?",["Lên cấp","Đổi tên","Đổi trang phục","Xóa trang bị"],0),
+("Cơ chế","Chí mạng thường liên quan đến điều gì?",["Đòn đánh có thể gây sát thương lớn hơn bình thường","Tăng HP tối đa trực tiếp","Tăng tầm nhìn toàn bản đồ","Giảm số người trong đội"],0),
+("Cơ chế","Tốc đánh ảnh hưởng trực tiếp đến điều gì?",["Tần suất đòn đánh thường","Số ô trang bị","Số người trong đội","Thời gian trận đấu"],0),
+("Cơ chế","Hút máu giúp tướng làm gì khi gây sát thương phù hợp?",["Hồi phục một phần HP","Tăng vàng ngay lập tức","Tăng tầm nhìn","Xóa hiệu ứng khống chế"],0),
+("Cơ chế","Giảm hồi chiêu giúp điều gì?",["Có thể sử dụng kỹ năng lại sớm hơn","Tăng số lượng kỹ năng","Tăng số người chơi","Đổi đường tự động"],0),
+("Trang bị","Món nào sau đây thiên về chí mạng?",["Thánh kiếm","Thương Longinus","Đao Truy Hồn","Thương Xuyên Phá"],0),
+("Trang bị","Món nào sau đây thiên về tốc đánh và hút máu?",["Kiếm Fafnir","Găng tay","Thương Xuyên Phá","Nanh Fenrir"],0),
+("Trang bị","Món nào sau đây có tên 'Cung tà ma'?",["Cung tà ma","Cung Thánh","Cung Hư Không","Cung Bóng Tối"],0),
+("Trang bị","Món nào sau đây có tên 'Thương Longinus'?",["Thương Longinus","Thương Fenrir","Thương Fafnir","Thương Tà Ma"],0),
+("Trang bị","Món nào sau đây có tên 'Đao Truy Hồn'?",["Đao Truy Hồn","Đao Thánh Kiếm","Đao Longinus","Đao Xuyên Phá"],0),
+("Tướng","Chiêu 1 của Violet có tác dụng nổi bật nào?",["Lộn và cường hóa đòn đánh thường tiếp theo","Kéo kẻ địch","Triệu hồi quái","Tạo đấu trường"],0),
+("Tướng","Chiêu cuối của Murad có bao nhiêu lần đánh theo mô tả chính thức?",["5","2","3","8"],0),
+("Tướng","Chiêu 1 của Nakroth có thể được dùng lần thứ hai miễn phí trong khoảng thời gian nào?",["Trong 5 giây","Trong 1 giây","Trong 10 phút","Không thể dùng lại"],0),
+("Tướng","Chiêu cuối của Valhein bắn bao nhiêu viên đạn bạc?",["6","3","5","8"],0),
+("Tướng","Nội tại Valhein có cơ chế mỗi đòn đánh thường thứ mấy tạo phi tiêu ngẫu nhiên?",["Đòn thứ 3","Đòn thứ 2","Đòn thứ 4","Đòn thứ 5"],0),
+("Tướng","Nội tại Omen cần bao nhiêu cộng dồn Sát khí để vào trạng thái cường hóa?",["5","2","3","10"],0),
+("Tướng","Nội tại Murad cần bao nhiêu cộng dồn để mở khóa chiêu cuối?",["4","2","5","6"],0),
+("Tướng","Chiêu cuối Omen tạo ra khu vực nào?",["Đấu trường sinh tử","Vùng hồi máu","Cổng dịch chuyển","Khu vực miễn phí"],0),
+("Tướng","Chiêu 2 Grakk có thể làm gì với kẻ địch?",["Kéo kẻ địch về","Hồi sinh đồng đội","Tăng tốc độ đánh toàn đội","Phá nhà chính ngay lập tức"],0),
+("Tướng","Chiêu cuối Nakroth có trạng thái đặc biệt nào trong lúc thi triển?",["Không bị khống chế","Tàng hình vĩnh viễn","Miễn mọi sát thương cả trận","Hồi sinh"],0),
+("Tướng","Chiêu 1 Hayate có tên gì?",["Chuỗi phi tiêu","Ảnh biến","Bão phi tiêu","Phản ứng dây chuyền"],0),
+("Tướng","Chiêu 2 Violet có tên gì?",["Lựu đạn nổ","Đạn xuyên thấu","Pháo đại","Nạp đạn"],0),
+("Tướng","Chiêu 1 Veera có tên gì?",["Dơi địa ngục","Hôn gió","Tiểu quỷ","Ám ảnh"],0),
+("Tướng","Chiêu cuối Veera có tên gì?",["Tiểu quỷ","Hôn gió","Dơi địa ngục","Tốc Biến"],0),
+("Tướng","Chiêu cuối Keera có khả năng đặc biệt nào?",["Di chuyển xuyên địa hình/công trình theo mô tả kỹ năng","Tự động phá nhà","Xóa toàn bộ trang bị địch","Đổi đường"],0),
+]
+questions += extra
+# Ensure 120 questions
+questions = questions[:120]
+
+import json, html, textwrap
+data = json.dumps(
+    [{"cat":c,"q":q,"a":a,"correct":i} for c,q,a,i in questions],
+    ensure_ascii=False
+)
+
+page = f"""<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IT Rank - Học Tin Học</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HT Quiz AOV</title>
 <style>
-:root{
-  --bg:#f5f7fb; --card:rgba(255,255,255,.88); --text:#182033; --muted:#697386;
-  --primary:#4f46e5; --primary2:#7c3aed; --line:#e7eaf1; --good:#16a34a; --bad:#dc2626;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
-radial-gradient(circle at 10% 0%,#e9e7ff 0,transparent 30%),
-radial-gradient(circle at 100% 10%,#dff5ff 0,transparent 28%),var(--bg);color:var(--text)}
-header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.nav{max-width:1150px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:22px;font-weight:800}.logo span{color:var(--primary)}
-.nav button{border:0;background:transparent;padding:9px 12px;border-radius:10px;cursor:pointer;color:var(--text)}
-.nav button.active,.nav button:hover{background:#eef0ff;color:var(--primary)}
-.container{max-width:1150px;margin:0 auto;padding:35px 20px}
-.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:22px;align-items:stretch}
-.card{background:var(--card);border:1px solid rgba(255,255,255,.8);box-shadow:0 18px 50px rgba(31,41,55,.08);border-radius:24px;padding:28px}
-.hero h1{font-size:46px;line-height:1.05;margin:0 0 14px}.hero p{font-size:18px;color:var(--muted);line-height:1.6}
-.btn{border:0;border-radius:13px;padding:12px 18px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));color:white}
-.btn.secondary{background:#eef0ff;color:var(--primary)}
-.rankbox{text-align:center;display:flex;flex-direction:column;justify-content:center}
-.rank-icon{font-size:62px}.rank-name{font-size:28px;font-weight:900;margin:5px 0}
-.xpbar{height:12px;background:#e8eaf0;border-radius:99px;overflow:hidden;margin:15px 0 7px}.xpfill{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444,#8b5cf6);width:0;transition:.4s}
-.small{font-size:13px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
-.topic{cursor:pointer;transition:.2s}.topic:hover{transform:translateY(-3px)}
-.topic h3{margin:8px 0}.topic p{color:var(--muted);margin:0}
-.quiz{max-width:820px;margin:0 auto}.question{font-size:25px;font-weight:800;line-height:1.4;margin:10px 0 22px}
-.answers{display:grid;gap:12px}.answer{padding:16px;border:2px solid var(--line);background:white;border-radius:15px;text-align:left;cursor:pointer;font-size:16px}
-.answer:hover{border-color:#a5b4fc}.answer.correct{border-color:var(--good);background:#f0fdf4}.answer.wrong{border-color:var(--bad);background:#fef2f2}
-.hidden{display:none!important}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}.back{cursor:pointer;color:var(--primary);font-weight:700}
-.result{text-align:center}.result .big{font-size:55px;font-weight:900}
-table{width:100%;border-collapse:collapse}th,td{padding:13px;border-bottom:1px solid var(--line);text-align:left}
-.badge{display:inline-block;padding:5px 10px;border-radius:999px;background:#f1f5f9;font-weight:700;font-size:12px}
-@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.hero h1{font-size:36px}.nav{flex-wrap:wrap;gap:8px}}
-.footer{text-align:center;padding:28px 20px 35px;color:#7b8494;font-size:14px}
-.footer strong{color:#4f46e5}
+*{{box-sizing:border-box}} body{{margin:0;font-family:Inter,Arial,sans-serif;background:linear-gradient(135deg,#07111f,#101d34);color:#eef4ff;min-height:100vh}}
+.container{{max-width:1000px;margin:auto;padding:24px}} header{{text-align:center;padding:24px 10px}}
+.logo{{font-size:42px;font-weight:900;color:#ffd45a;text-shadow:0 0 20px #ffd45a44}} .sub{{color:#9fb0c9}}
+.card{{background:#111e31;border:1px solid #263b58;border-radius:20px;padding:24px;margin:16px 0;box-shadow:0 12px 40px #0005}}
+nav{{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0 20px}} button{{border:0;border-radius:12px;padding:12px 18px;font-weight:800;cursor:pointer}}
+.navbtn{{background:#1d304b;color:#fff}} .primary{{background:#ffd45a;color:#111}} .choice{{display:block;width:100%;text-align:left;background:#1a2a41;color:#fff;margin:10px 0;border:1px solid #2c4565}}
+.choice:hover{{border-color:#ffd45a}} .choice.correct{{background:#164d38;border-color:#4ee39b}} .choice.wrong{{background:#5a2630;border-color:#ff7182}}
+.choice:disabled{{cursor:default;opacity:1}} .hidden{{display:none}} .top{{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#b9c8dc}}
+.bar{{height:10px;background:#26374f;border-radius:99px;overflow:hidden;margin:14px 0}} .fill{{height:100%;background:#ffd45a;width:0;transition:.3s}}
+.badge{{display:inline-block;background:#243958;color:#ffd45a;padding:6px 10px;border-radius:99px;font-weight:800}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}}
+.stat{{background:#17273d;border-radius:15px;padding:16px;text-align:center}} .stat b{{display:block;font-size:28px;color:#ffd45a}}
+.rank{{padding:12px;border-bottom:1px solid #293d57;display:flex;justify-content:space-between}}
+.note{{font-size:13px;color:#9fb0c9;line-height:1.6}} footer{{text-align:center;color:#8294ac;padding:25px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="nav">
-    <div class="logo">IT<span>RANK</span> 🎓</div>
-    <div>
-      <button class="active" onclick="showHome()">Trang chủ</button>
-      <button onclick="showRank()">Xếp hạng</button>
-    </div>
-  </div>
-</header>
+<div class="container">
+<header><div class="logo">⚔️ HT Quiz AOV</div><div class="sub">Quiz kiến thức Liên Quân Mobile • 120 câu hỏi</div></header>
+<nav>
+<button class="navbtn" onclick="show('home')">🎮 Chơi</button>
+<button class="navbtn" onclick="show('rank')">🏆 Xếp hạng</button>
+<button class="navbtn" onclick="show('stats')">📊 Thành tích</button>
+</nav>
 
-<main class="container">
-  <section id="home">
-    <div class="hero">
-      <div class="card">
-        <div class="badge">HỌC TIN HỌC • THI TRẮC NGHIỆM</div>
-        <h1>Học tin học,<br><span style="color:#4f46e5">leo rank</span> mỗi ngày.</h1>
-        <p>Hơn 100 câu hỏi trắc nghiệm. Mỗi trận chọn ngẫu nhiên 10 câu, tích lũy XP và chinh phục các bậc rank từ Đồng đến Chiến Tướng.</p>
-        <button class="btn" onclick="startQuiz()">Bắt đầu làm bài →</button>
-      </div>
-      <div class="card rankbox">
-        <div class="rank-icon" id="rankIcon">🥉</div>
-        <div class="rank-name" id="rankName">Đồng</div>
-        <div class="small" id="levelText">0 XP</div>
-        <div class="xpbar"><div class="xpfill" id="xpFill"></div></div>
-        <div class="small" id="nextText">100 XP để lên rank tiếp theo</div>
-      </div>
-    </div>
+<section id="home" class="card">
+<div class="top"><span id="category" class="badge">Sẵn sàng</span><span>XP: <b id="xpTop">0</b></span></div>
+<h1 id="title">HT Quiz AOV</h1>
+<p id="intro">Mỗi trận chọn ngẫu nhiên 10 câu, không lặp trong cùng một trận. Trả lời đúng được +20 XP.</p>
+<button class="primary" onclick="startGame()">Bắt đầu trận</button>
+<div id="game" class="hidden">
+<div class="top"><span id="count"></span><span id="score"></span></div>
+<div class="bar"><div id="fill" class="fill"></div></div>
+<h2 id="question"></h2>
+<div id="answers"></div>
+<p id="feedback"></p>
+<button id="next" class="primary hidden" onclick="nextQuestion()">Câu tiếp theo →</button>
+</div>
+</section>
 
-    <h2>Chủ đề học tập</h2>
-    <div class="grid">
-      <div class="card topic" onclick="startQuiz('Cơ bản')"><div style="font-size:35px">💻</div><h3>Tin học cơ bản</h3><p>Phần cứng, phần mềm, hệ điều hành.</p></div>
-      <div class="card topic" onclick="startQuiz('Internet')"><div style="font-size:35px">🌐</div><h3>Internet</h3><p>Mạng máy tính, trình duyệt, an toàn mạng.</p></div>
-      <div class="card topic" onclick="startQuiz('Office')"><div style="font-size:35px">📊</div><h3>Office</h3><p>Word, Excel, PowerPoint và kỹ năng văn phòng.</p></div>
-    </div>
-  </section>
+<section id="rank" class="card hidden">
+<h2>🏆 Xếp hạng</h2><div id="rankList"></div>
+<p class="note">Mốc XP: Đồng 0 • Bạc 100 • Vàng 250 • Bạch Kim 450 • Kim Cương 700 • Tinh Anh 1000 • Cao Thủ 1400 • Chiến Tướng 1900.</p>
+</section>
 
-  <section id="quiz" class="hidden">
-    <div class="quiz">
-      <div class="topline"><span class="back" onclick="showHome()">← Trang chủ</span><span id="progress"></span></div>
-      <div class="card" style="margin-top:16px">
-        <div class="small" id="category"></div>
-        <div class="question" id="question"></div>
-        <div class="answers" id="answers"></div>
-        <div id="feedback" class="small" style="margin-top:16px"></div>
-      </div>
-    </div>
-  </section>
+<section id="stats" class="card hidden">
+<h2>📊 Thành tích của bạn</h2>
+<div class="grid">
+<div class="stat"><b id="xpStat">0</b>XP</div>
+<div class="stat"><b id="correctStat">0</b>Câu đúng</div>
+<div class="stat"><b id="gamesStat">0</b>Trận</div>
+<div class="stat"><b id="rankStat">Đồng</b>Hạng</div>
+</div>
+</section>
 
-  <section id="result" class="hidden">
-    <div class="card result">
-      <div class="big" id="resultIcon">🎉</div>
-      <h1 id="resultTitle">Hoàn thành!</h1>
-      <p id="resultText"></p>
-      <button class="btn" onclick="showHome()">Về trang chủ</button>
-    </div>
-  </section>
-
-  <section id="ranking" class="hidden">
-    <div class="card">
-      <h1>Bảng xếp hạng</h1>
-      <p class="small">Bản thử nghiệm lưu dữ liệu trên trình duyệt của bạn.</p>
-      <table><thead><tr><th>Hạng</th><th>Người chơi</th><th>Rank</th><th>XP</th></tr></thead>
-      <tbody><tr><td>1</td><td>Bạn</td><td id="rankTable">Đồng</td><td id="xpTable">0</td></tr></tbody></table>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  Phát triển bởi <strong>Pham Hoang Thai</strong>
-</footer>
-
+<footer>Phát triển bởi Pham Hoang Thai<br><span class="note">Thông tin tướng, kỹ năng và trang bị có thể thay đổi theo các bản cập nhật của game.</span></footer>
+</div>
 <script>
-const questions=[{"c": "Cơ bản", "q": "CPU là viết tắt của cụm từ nào?", "a": ["Central Processing Unit", "Computer Personal Unit", "Control Program Utility", "Central Program User"], "ok": 0}, {"c": "Cơ bản", "q": "RAM có chức năng chính nào?", "a": ["Lưu dữ liệu tạm thời khi máy đang chạy", "In tài liệu", "Kết nối Wi-Fi", "Phát âm thanh"], "ok": 0}, {"c": "Cơ bản", "q": "Thiết bị nào là thiết bị nhập?", "a": ["Bàn phím", "Màn hình", "Loa", "Máy in"], "ok": 0}, {"c": "Cơ bản", "q": "Thiết bị nào là thiết bị xuất?", "a": ["Chuột", "Bàn phím", "Màn hình", "Micro"], "ok": 2}, {"c": "Cơ bản", "q": "SSD dùng chủ yếu để làm gì?", "a": ["Lưu trữ dữ liệu", "Xử lý đồ họa", "Tính toán CPU", "Thu âm"], "ok": 0}, {"c": "Cơ bản", "q": "Hệ điều hành nào do Microsoft phát triển?", "a": ["Windows", "Ubuntu", "Android", "macOS"], "ok": 0}, {"c": "Cơ bản", "q": "Phím tắt Ctrl + C thường dùng để làm gì?", "a": ["Dán", "Sao chép", "Lưu", "In"], "ok": 1}, {"c": "Cơ bản", "q": "Phím tắt Ctrl + V dùng để làm gì?", "a": ["Dán", "Sao chép", "Hoàn tác", "Tìm kiếm"], "ok": 0}, {"c": "Cơ bản", "q": "Phím tắt Ctrl + Z thường dùng để làm gì?", "a": ["Làm lại", "Hoàn tác", "In", "Đóng cửa sổ"], "ok": 1}, {"c": "Cơ bản", "q": "Một byte thường có bao nhiêu bit?", "a": ["4", "8", "16", "32"], "ok": 1}, {"c": "Cơ bản", "q": "GPU chủ yếu xử lý nhiệm vụ nào?", "a": ["Đồ họa", "Âm thanh", "Nguồn điện", "Bàn phím"], "ok": 0}, {"c": "Cơ bản", "q": "USB là một chuẩn dùng để làm gì?", "a": ["Kết nối thiết bị", "Nén ảnh", "Chống virus", "Tạo mật khẩu"], "ok": 0}, {"c": "Cơ bản", "q": "Phần mềm diệt virus dùng để làm gì?", "a": ["Phát hiện và xử lý phần mềm độc hại", "Tăng kích thước màn hình", "Tạo tài khoản mạng xã hội", "Tăng dung lượng ổ cứng"], "ok": 0}, {"c": "Cơ bản", "q": "File có đuôi .jpg thường là loại file gì?", "a": ["Ảnh", "Âm thanh", "Video", "Văn bản"], "ok": 0}, {"c": "Cơ bản", "q": "File có đuôi .mp3 thường là loại file gì?", "a": ["Ảnh", "Âm thanh", "Bảng tính", "Mã nguồn"], "ok": 1}, {"c": "Cơ bản", "q": "File có đuôi .pdf thường được dùng cho gì?", "a": ["Tài liệu", "Driver", "Âm thanh", "BIOS"], "ok": 0}, {"c": "Cơ bản", "q": "Folder dùng để làm gì?", "a": ["Tổ chức tệp", "Tăng RAM", "Sửa CPU", "Kết nối mạng"], "ok": 0}, {"c": "Cơ bản", "q": "Hệ nhị phân sử dụng những chữ số nào?", "a": ["0 và 1", "1 và 2", "0 đến 9", "A và B"], "ok": 0}, {"c": "Cơ bản", "q": "Bo mạch chủ còn gọi là gì?", "a": ["Motherboard", "Keyboard", "Monitor", "Router"], "ok": 0}, {"c": "Cơ bản", "q": "BIOS/UEFI liên quan đến giai đoạn nào?", "a": ["Khởi động máy", "Soạn văn bản", "Chơi nhạc", "In ảnh"], "ok": 0}, {"c": "Internet", "q": "HTTPS bổ sung điều gì cho HTTP?", "a": ["Mã hóa kết nối bằng TLS", "Tăng dung lượng ổ cứng", "Tắt cookie", "Tăng RAM"], "ok": 0}, {"c": "Internet", "q": "Trình duyệt web dùng để làm gì?", "a": ["Truy cập và hiển thị trang web", "Sửa phần cứng", "Tăng CPU", "Tạo nguồn điện"], "ok": 0}, {"c": "Internet", "q": "URL là gì?", "a": ["Địa chỉ của tài nguyên trên Internet", "Tên của CPU", "Mật khẩu Wi-Fi", "Loại RAM"], "ok": 0}, {"c": "Internet", "q": "DNS có nhiệm vụ chính nào?", "a": ["Phân giải tên miền thành địa chỉ IP", "Nén video", "Diệt virus", "Tạo file PDF"], "ok": 0}, {"c": "Internet", "q": "Địa chỉ IP dùng để làm gì?", "a": ["Định danh thiết bị trên mạng", "Tăng tốc màn hình", "Lưu ảnh", "Tạo mật khẩu"], "ok": 0}, {"c": "Internet", "q": "Router thường làm gì?", "a": ["Định tuyến dữ liệu giữa các mạng", "Soạn văn bản", "Chụp ảnh", "Chạy ứng dụng văn phòng"], "ok": 0}, {"c": "Internet", "q": "Wi-Fi là công nghệ gì?", "a": ["Kết nối mạng không dây", "Lưu trữ đám mây", "Chống spam", "Mã hóa file"], "ok": 0}, {"c": "Internet", "q": "Mật khẩu nào an toàn hơn?", "a": ["123456", "password", "Tên + ngày sinh", "Chuỗi dài, khó đoán và duy nhất"], "ok": 3}, {"c": "Internet", "q": "Xác thực hai yếu tố giúp gì?", "a": ["Tăng lớp bảo vệ tài khoản", "Tăng độ phân giải", "Tăng dung lượng RAM", "Giảm kích thước file"], "ok": 0}, {"c": "Internet", "q": "Phishing là hình thức nào?", "a": ["Lừa người dùng cung cấp thông tin nhạy cảm", "Nâng cấp phần cứng", "Nén dữ liệu", "Tạo bảng tính"], "ok": 0}, {"c": "Internet", "q": "Cookie của website thường dùng để làm gì?", "a": ["Lưu một số thông tin/trạng thái trình duyệt", "Tăng tốc CPU", "Thay card mạng", "Xóa hệ điều hành"], "ok": 0}, {"c": "Internet", "q": "Cloud storage là gì?", "a": ["Lưu trữ dữ liệu trên hạ tầng trực tuyến", "Ổ cứng gắn trong", "RAM", "Bộ nhớ cache CPU"], "ok": 0}, {"c": "Internet", "q": "Spam thường là gì?", "a": ["Tin nhắn hoặc nội dung không mong muốn", "Mật khẩu mạnh", "Phần mềm hệ thống", "Thiết bị mạng"], "ok": 0}, {"c": "Internet", "q": "VPN thường tạo ra điều gì?", "a": ["Kết nối mạng được mã hóa qua một đường hầm", "Thêm RAM", "Tăng kích thước màn hình", "Tắt Internet"], "ok": 0}, {"c": "Internet", "q": "Băng thông mạng thường được đo bằng gì?", "a": ["bit/s", "pixel", "byte/inch", "volt"], "ok": 0}, {"c": "Internet", "q": "Ping thường dùng để đo gì?", "a": ["Độ trễ kết nối", "Dung lượng ổ cứng", "Độ sáng màn hình", "Nhiệt độ CPU"], "ok": 0}, {"c": "Internet", "q": "Tên miền .vn thuộc quốc gia nào?", "a": ["Việt Nam", "Nhật Bản", "Hoa Kỳ", "Anh"], "ok": 0}, {"c": "Internet", "q": "Email dùng giao thức nào để gửi thư phổ biến?", "a": ["SMTP", "FTP", "SSH", "DHCP"], "ok": 0}, {"c": "Internet", "q": "FTP chủ yếu dùng để làm gì?", "a": ["Truyền tệp", "Phát video", "Tạo bảng tính", "Quản lý RAM"], "ok": 0}, {"c": "Internet", "q": "Một kết nối HTTPS thường có biểu tượng gì trên trình duyệt?", "a": ["Ổ khóa", "Loa", "Máy in", "Bàn phím"], "ok": 0}, {"c": "Office", "q": "Trong Excel, công thức thường bắt đầu bằng ký hiệu nào?", "a": ["#", "=", "@", "$"], "ok": 1}, {"c": "Office", "q": "PowerPoint thường dùng để tạo gì?", "a": ["Bài trình chiếu", "Driver", "Hệ điều hành", "Router"], "ok": 0}, {"c": "Office", "q": "Word chủ yếu dùng để làm gì?", "a": ["Soạn thảo văn bản", "Chỉnh BIOS", "Định tuyến mạng", "Quản lý RAM"], "ok": 0}, {"c": "Office", "q": "Trong Excel, ô giao nhau giữa cột A và hàng 1 có tên gì?", "a": ["A1", "1A", "AA", "A0"], "ok": 0}, {"c": "Office", "q": "Hàm SUM trong Excel dùng để làm gì?", "a": ["Tính tổng", "Tìm kiếm web", "Đổi font", "Chèn ảnh"], "ok": 0}, {"c": "Office", "q": "Hàm AVERAGE dùng để làm gì?", "a": ["Tính trung bình", "Tính tổng", "Đếm ký tự", "Tạo biểu đồ"], "ok": 0}, {"c": "Office", "q": "Ctrl + S thường dùng để làm gì?", "a": ["Lưu", "Sao chép", "Dán", "Đóng"], "ok": 0}, {"c": "Office", "q": "Ctrl + P thường dùng để làm gì?", "a": ["In", "Dán", "Hoàn tác", "Tìm kiếm"], "ok": 0}, {"c": "Office", "q": "Trong Word, căn giữa đoạn văn thường dùng phím tắt nào?", "a": ["Ctrl + E", "Ctrl + L", "Ctrl + R", "Ctrl + J"], "ok": 0}, {"c": "Office", "q": "Trong Word, Ctrl + B dùng để làm gì?", "a": ["In đậm", "In nghiêng", "Gạch chân", "Căn giữa"], "ok": 0}, {"c": "Office", "q": "Trong Word, Ctrl + I dùng để làm gì?", "a": ["In nghiêng", "In đậm", "Lưu", "In"], "ok": 0}, {"c": "Office", "q": "Trong Word, Ctrl + U dùng để làm gì?", "a": ["Gạch chân", "In đậm", "Căn phải", "Mở file"], "ok": 0}, {"c": "Office", "q": "Trong PowerPoint, một slide là gì?", "a": ["Một trang trình chiếu", "Một file âm thanh", "Một ô Excel", "Một thư mục"], "ok": 0}, {"c": "Office", "q": "Biểu đồ trong Excel giúp gì?", "a": ["Trực quan hóa dữ liệu", "Tăng RAM", "Mã hóa Wi-Fi", "Cài driver"], "ok": 0}, {"c": "Office", "q": "Trong Excel, ký hiệu $ trong tham chiếu có thể dùng để làm gì?", "a": ["Cố định hàng/cột khi sao chép công thức", "Tính tiền", "Đổi font", "Tạo mật khẩu"], "ok": 0}, {"c": "Office", "q": "Phím F4 trong Excel khi chỉnh công thức có thể làm gì?", "a": ["Thay đổi kiểu tham chiếu tương đối/tuyệt đối", "In tài liệu", "Xóa file", "Mở trình duyệt"], "ok": 0}, {"c": "Office", "q": "PowerPoint có thể chèn đối tượng nào?", "a": ["Ảnh và video", "Chỉ văn bản", "Chỉ bảng", "Không có đối tượng"], "ok": 0}, {"c": "Office", "q": "Trong Excel, COUNT thường dùng để làm gì?", "a": ["Đếm ô chứa số", "Tính trung bình", "Nối văn bản", "Tạo biểu đồ"], "ok": 0}, {"c": "Office", "q": "Trong Word, Header nằm ở đâu?", "a": ["Đầu trang", "Cuối trang", "Giữa bảng", "Thanh tác vụ"], "ok": 0}, {"c": "Office", "q": "Trong Word, Footer nằm ở đâu?", "a": ["Cuối trang", "Đầu trang", "Thanh tiêu đề", "Bên trái màn hình"], "ok": 0}, {"c": "Mạng", "q": "LAN là mạng trong phạm vi nào?", "a": ["Phạm vi cục bộ", "Toàn cầu", "Ngoài Trái Đất", "Chỉ trong điện thoại"], "ok": 0}, {"c": "Mạng", "q": "WAN là viết tắt của gì?", "a": ["Wide Area Network", "Web Access Node", "Wireless App Network", "Wide Android Network"], "ok": 0}, {"c": "Mạng", "q": "Switch thường dùng để làm gì trong mạng LAN?", "a": ["Kết nối các thiết bị trong mạng", "Phát Wi-Fi duy nhất", "Lưu ảnh", "Chạy Excel"], "ok": 0}, {"c": "Mạng", "q": "MAC address thường gắn với thành phần nào?", "a": ["Giao diện mạng", "Màn hình", "Ổ cứng", "Loa"], "ok": 0}, {"c": "Mạng", "q": "DHCP có nhiệm vụ phổ biến nào?", "a": ["Cấp phát cấu hình IP tự động", "Nén file", "Diệt virus", "Tạo slide"], "ok": 0}, {"c": "Mạng", "q": "TCP chú trọng điều gì?", "a": ["Truyền dữ liệu tin cậy", "Chỉ truyền âm thanh", "Tạo hình ảnh", "Tăng độ sáng"], "ok": 0}, {"c": "Mạng", "q": "UDP thường có đặc điểm nào?", "a": ["Ít cơ chế đảm bảo hơn TCP và độ trễ thấp hơn trong nhiều trường hợp", "Luôn chậm hơn TCP", "Không dùng trên Internet", "Chỉ dùng cho email"], "ok": 0}, {"c": "Mạng", "q": "Firewall dùng để làm gì?", "a": ["Kiểm soát lưu lượng mạng theo quy tắc", "Tăng RAM", "Chỉnh màu màn hình", "Tạo tài liệu"], "ok": 0}, {"c": "Mạng", "q": "Port 443 thường gắn với dịch vụ nào?", "a": ["HTTPS", "FTP", "SMTP", "DNS"], "ok": 0}, {"c": "Mạng", "q": "Port 80 thường gắn với dịch vụ nào?", "a": ["HTTP", "HTTPS", "SSH", "DHCP"], "ok": 0}, {"c": "Mạng", "q": "SSH thường dùng để làm gì?", "a": ["Kết nối/quản trị máy từ xa an toàn", "In tài liệu", "Chỉnh ảnh", "Tạo bảng tính"], "ok": 0}, {"c": "Mạng", "q": "Địa chỉ IPv4 có độ dài bao nhiêu bit?", "a": ["32", "64", "128", "16"], "ok": 0}, {"c": "Mạng", "q": "Địa chỉ IPv6 có độ dài bao nhiêu bit?", "a": ["32", "64", "128", "256"], "ok": 2}, {"c": "Mạng", "q": "Ping thường sử dụng cơ chế nào?", "a": ["ICMP Echo", "HTTP POST", "SMTP", "FTP"], "ok": 0}, {"c": "Mạng", "q": "Access Point có vai trò gì?", "a": ["Cung cấp kết nối mạng không dây", "Lưu dữ liệu", "Xử lý đồ họa", "In"], "ok": 0}, {"c": "Lập trình", "q": "HTML dùng chủ yếu để làm gì?", "a": ["Mô tả cấu trúc nội dung trang web", "Tạo CPU", "Quản lý Wi-Fi", "Nén video"], "ok": 0}, {"c": "Lập trình", "q": "CSS dùng chủ yếu để làm gì?", "a": ["Định kiểu và trình bày trang web", "Lưu cơ sở dữ liệu", "Cấp IP", "Diệt virus"], "ok": 0}, {"c": "Lập trình", "q": "JavaScript thường dùng để làm gì trên web?", "a": ["Tạo hành vi và tương tác", "Thay ổ cứng", "Cấp điện", "Tạo màn hình"], "ok": 0}, {"c": "Lập trình", "q": "Biến (variable) dùng để làm gì?", "a": ["Lưu trữ một giá trị để chương trình sử dụng", "Kết nối Wi-Fi", "In giấy", "Tăng độ phân giải"], "ok": 0}, {"c": "Lập trình", "q": "Vòng lặp dùng để làm gì?", "a": ["Lặp lại một nhóm lệnh", "Xóa hệ điều hành", "Tắt mạng", "Tạo phần cứng"], "ok": 0}, {"c": "Lập trình", "q": "Câu lệnh if thường dùng để làm gì?", "a": ["Rẽ nhánh theo điều kiện", "Lặp vô hạn", "Tạo ảnh", "Kết nối máy in"], "ok": 0}, {"c": "Lập trình", "q": "Bug trong lập trình là gì?", "a": ["Lỗi trong chương trình", "Một loại CPU", "Một giao thức mạng", "Một file ảnh"], "ok": 0}, {"c": "Lập trình", "q": "Debug là quá trình gì?", "a": ["Tìm và sửa lỗi", "Nén file", "Tạo tài khoản", "Cài màn hình"], "ok": 0}, {"c": "Lập trình", "q": "API là gì?", "a": ["Giao diện cho phép các phần mềm giao tiếp với nhau", "Một loại RAM", "Một trình duyệt", "Một ổ cứng"], "ok": 0}, {"c": "Lập trình", "q": "Git dùng phổ biến để làm gì?", "a": ["Quản lý phiên bản mã nguồn", "Tăng tốc Internet", "Chỉnh ảnh", "In tài liệu"], "ok": 0}, {"c": "Lập trình", "q": "JSON thường dùng để làm gì?", "a": ["Trao đổi dữ liệu có cấu trúc", "Tạo CPU", "Cài driver", "Chống virus"], "ok": 0}, {"c": "Lập trình", "q": "Database là gì?", "a": ["Hệ thống lưu trữ và quản lý dữ liệu", "Một trình duyệt", "Một loại màn hình", "Một giao thức Wi-Fi"], "ok": 0}, {"c": "Lập trình", "q": "SQL thường dùng để làm gì?", "a": ["Truy vấn và quản lý cơ sở dữ liệu quan hệ", "Thiết kế slide", "Chỉnh video", "Cài hệ điều hành"], "ok": 0}, {"c": "Lập trình", "q": "Frontend thường là phần nào của ứng dụng web?", "a": ["Phần giao diện người dùng tương tác", "Máy chủ vật lý", "Nguồn điện", "Ổ cứng"], "ok": 0}, {"c": "Lập trình", "q": "Backend thường xử lý gì?", "a": ["Logic phía máy chủ và dữ liệu", "Màu màn hình", "Bàn phím", "Âm lượng loa"], "ok": 0}, {"c": "An toàn", "q": "Mật khẩu nên có đặc điểm nào?", "a": ["Dài, khó đoán và không dùng lại nhiều nơi", "Chỉ gồm 123456", "Là ngày sinh", "Giống nhau ở mọi tài khoản"], "ok": 0}, {"c": "An toàn", "q": "Khi nhận email đáng ngờ có liên kết lạ, nên làm gì?", "a": ["Không bấm và kiểm tra nguồn gửi", "Bấm ngay", "Gửi mật khẩu", "Tải mọi file đính kèm"], "ok": 0}, {"c": "An toàn", "q": "Phần mềm nên được cập nhật vì lý do nào?", "a": ["Bổ sung tính năng và sửa lỗi bảo mật", "Làm bàn phím to hơn", "Tăng kích thước màn hình", "Đổi tên máy"], "ok": 0}, {"c": "An toàn", "q": "Sao lưu dữ liệu giúp ích gì?", "a": ["Khôi phục dữ liệu khi mất hoặc hỏng", "Tăng tốc CPU", "Tăng Wi-Fi", "Đổi hệ điều hành tự động"], "ok": 0}, {"c": "An toàn", "q": "Ransomware thường làm gì?", "a": ["Mã hóa dữ liệu và đòi tiền chuộc", "Tăng RAM", "Tạo slide", "Cải thiện Wi-Fi"], "ok": 0}, {"c": "An toàn", "q": "Mã OTP nên được xử lý thế nào?", "a": ["Không chia sẻ cho người khác", "Đăng công khai", "Gửi cho người lạ", "Dùng lại nhiều lần"], "ok": 0}, {"c": "An toàn", "q": "Khi dùng Wi-Fi công cộng, điều gì nên được ưu tiên?", "a": ["Tránh giao dịch nhạy cảm trên mạng không tin cậy và dùng kết nối bảo mật", "Chia sẻ mật khẩu", "Tắt mọi cập nhật", "Công khai tài khoản"], "ok": 0}, {"c": "An toàn", "q": "Quyền ứng dụng trên điện thoại nên thế nào?", "a": ["Chỉ cấp quyền cần thiết", "Cấp mọi quyền", "Tắt mọi quyền", "Chia sẻ với tất cả app"], "ok": 0}, {"c": "An toàn", "q": "Social engineering là gì?", "a": ["Khai thác tâm lý con người để lấy thông tin hoặc thực hiện hành động", "Nâng cấp CPU", "Mã hóa ổ cứng tự động", "Tạo biểu đồ"], "ok": 0}, {"c": "An toàn", "q": "Xác minh danh tính người yêu cầu thông tin nhạy cảm giúp tránh gì?", "a": ["Lừa đảo giả mạo", "Thiếu RAM", "Lỗi màn hình", "Mất âm thanh"], "ok": 0}, {"c": "An toàn", "q": "Một bản sao lưu tốt nên có đặc điểm nào?", "a": ["Có thể khôi phục và được bảo vệ khỏi sự cố ảnh hưởng bản gốc", "Chỉ lưu cùng một ổ với bản gốc", "Không cần kiểm tra", "Chỉ là ảnh chụp màn hình"], "ok": 0}, {"c": "An toàn", "q": "Mã hóa dữ liệu có mục đích gì?", "a": ["Bảo vệ nội dung khỏi người không được phép đọc", "Tăng tốc CPU", "Tăng độ sáng", "Tạo slide"], "ok": 0}, {"c": "An toàn", "q": "Phần mềm độc hại còn gọi là gì?", "a": ["Malware", "Hardware", "Freeware", "Shareware"], "ok": 0}, {"c": "An toàn", "q": "Khi tải phần mềm, nguồn nào đáng tin cậy hơn?", "a": ["Trang chính thức hoặc kho phần mềm uy tín", "Link lạ từ bình luận", "File không rõ nguồn", "File gửi từ người không quen"], "ok": 0}, {"c": "An toàn", "q": "Khi tài khoản có dấu hiệu bị xâm nhập, nên làm gì trước?", "a": ["Đổi mật khẩu từ thiết bị an toàn và kiểm tra phiên đăng nhập", "Công khai mật khẩu", "Tắt Internet vĩnh viễn", "Gửi mã OTP cho người khác"], "ok": 0}];
+const bank={data};
 const ranks=[
- ["Đồng","🥉",0],["Bạc","🥈",100],["Vàng","🥇",250],["Bạch Kim","💎",450],
- ["Kim Cương","💠",700],["Tinh Anh","🔥",1000],["Cao Thủ","⚔️",1400],["Chiến Tướng","👑",1900]
+  ["Đồng",0],["Bạc",100],["Vàng",250],["Bạch Kim",450],
+  ["Kim Cương",700],["Tinh Anh",1000],["Cao Thủ",1400],["Chiến Tướng",1900]
 ];
-let xp=Number(localStorage.getItem("it_xp")||0), current=[],pos=0,score=0,answered=false;
+let xp=+localStorage.getItem("ht_aov_xp")||0;
+let correctTotal=+localStorage.getItem("ht_aov_correct")||0;
+let games=+localStorage.getItem("ht_aov_games")||0;
+let match=[],pos=0,score=0,answered=false;
 
-function getRank(){
- let r=ranks[0]; for(const x of ranks) if(xp>=x[2]) r=x; return r;
-}
-function updateUI(){
- const r=getRank(), idx=ranks.indexOf(r), next=ranks[idx+1];
- document.getElementById("rankIcon").textContent=r[1];
- document.getElementById("rankName").textContent=r[0];
- document.getElementById("levelText").textContent=xp+" XP";
- document.getElementById("rankTable").textContent=r[0];
- document.getElementById("xpTable").textContent=xp;
- if(next){
-   const pct=Math.min(100,((xp-r[2])/(next[2]-r[2]))*100);
-   document.getElementById("xpFill").style.width=pct+"%";
-   document.getElementById("nextText").textContent=(next[2]-xp)+" XP để lên "+next[0];
- }else{
-   document.getElementById("xpFill").style.width="100%";
-   document.getElementById("nextText").textContent="Bạn đã đạt Chiến Tướng!";
- }
-}
-function hideAll(){["home","quiz","result","ranking"].forEach(x=>document.getElementById(x).classList.add("hidden"))}
-function showHome(){hideAll();document.getElementById("home").classList.remove("hidden");updateUI()}
-function showRank(){hideAll();document.getElementById("ranking").classList.remove("hidden");updateUI()}
-function startQuiz(cat){
- current=cat?questions.filter(x=>x.c===cat):[...questions];
- current=current.sort(()=>Math.random()-.5).slice(0,10);pos=0;score=0;
- hideAll();document.getElementById("quiz").classList.remove("hidden");renderQ();
-}
-function renderQ(){
- answered=false; const x=current[pos];
- document.getElementById("progress").textContent=`Câu ${pos+1}/${current.length}`;
- document.getElementById("category").textContent=x.c;
+function getRank(){{
+ let r=ranks[0][0]; for(const x of ranks) if(xp>=x[1]) r=x[0]; return r;
+}}
+function save(){{
+ localStorage.setItem("ht_aov_xp",xp);
+ localStorage.setItem("ht_aov_correct",correctTotal);
+ localStorage.setItem("ht_aov_games",games);
+ updateStats();
+}}
+function updateStats(){{
+ document.getElementById("xpTop").textContent=xp;
+ document.getElementById("xpStat").textContent=xp;
+ document.getElementById("correctStat").textContent=correctTotal;
+ document.getElementById("gamesStat").textContent=games;
+ document.getElementById("rankStat").textContent=getRank();
+ renderRanks();
+}}
+function show(id){{
+ ["home","rank","stats"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));
+ if(id==="rank"||id==="stats") updateStats();
+}}
+function renderRanks(){{
+ document.getElementById("rankList").innerHTML=ranks.map((r,i)=>
+ `<div class="rank"><span>${i+1}. ${r[0]}</span><b>${r[1]} XP</b></div>`).join("");
+}}
+function shuffle(a){{
+ a=[...a]; for(let i=a.length-1;i>0;i--){{let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}} return a;
+}}
+function startGame(){{
+ match=shuffle(bank).slice(0,10); pos=0; score=0; games++; save();
+ document.getElementById("game").classList.remove("hidden");
+ document.getElementById("title").textContent="Trận mới";
+ document.getElementById("intro").textContent="";
+ document.querySelector("#home>.primary").classList.add("hidden");
+ renderQuestion();
+}}
+function renderQuestion(){{
+ answered=false;
+ const x=match[pos];
+ document.getElementById("category").textContent=x.cat;
+ document.getElementById("count").textContent=`Câu ${{pos+1}}/10`;
+ document.getElementById("score").textContent=`Đúng: ${{score}}`;
+ document.getElementById("fill").style.width=`${{pos/10*100}}%`;
  document.getElementById("question").textContent=x.q;
+ const box=document.getElementById("answers"); box.innerHTML="";
+ shuffle(x.a.map((v,i)=>[v,i])).forEach(([v,i])=>{{
+   const b=document.createElement("button"); b.className="choice"; b.textContent=v;
+   b.onclick=()=>answer(b,i===x.correct,x.correct);
+   box.appendChild(b);
+ }});
  document.getElementById("feedback").textContent="";
- const box=document.getElementById("answers");box.innerHTML="";
- x.a.forEach((v,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=v;b.onclick=()=>answer(i,b);box.appendChild(b)});
-}
-function answer(i,btn){
+ document.getElementById("next").classList.add("hidden");
+}}
+function answer(btn,ok,correctIndex){{
  if(answered)return; answered=true;
- const x=current[pos], all=[...document.querySelectorAll(".answer")];
- all[x.ok].classList.add("correct");
- if(i===x.ok){score++;xp+=20;btn.classList.add("correct");document.getElementById("feedback").textContent="✅ Chính xác! +20 XP";}
- else{btn.classList.add("wrong");document.getElementById("feedback").textContent="❌ Chưa đúng."}
- localStorage.setItem("it_xp",xp);updateUI();
- setTimeout(()=>{pos++; if(pos<current.length)renderQ(); else finish()},650);
-}
-function finish(){
- hideAll();document.getElementById("result").classList.remove("hidden");
- document.getElementById("resultText").textContent=`Bạn đúng ${score}/${current.length} câu và nhận được ${score*20} XP. Rank hiện tại: ${getRank()[0]}.`;
- document.getElementById("resultIcon").textContent=score===current.length?"🏆":score>=3?"🎉":"📚";
-}
-updateUI();
+ [...document.querySelectorAll(".choice")].forEach(b=>b.disabled=true);
+ if(ok){{btn.classList.add("correct");score++;xp+=20;correctTotal++;document.getElementById("feedback").textContent="✅ Chính xác! +20 XP";}}
+ else{{
+   btn.classList.add("wrong");
+   const text=match[pos].a[correctIndex];
+   document.getElementById("feedback").textContent="❌ Chưa đúng. Đáp án: "+text;
+   [...document.querySelectorAll(".choice")].forEach(b=>{{if(b.textContent===text)b.classList.add("correct")}});
+ }}
+ save(); document.getElementById("next").classList.remove("hidden");
+}}
+function nextQuestion(){{
+ pos++;
+ if(pos>=10){{finish();return}}
+ renderQuestion();
+}}
+function finish(){{
+ document.getElementById("fill").style.width="100%";
+ document.getElementById("question").textContent=`🎉 Kết thúc! Bạn đúng ${{score}}/10 câu.`;
+ document.getElementById("answers").innerHTML="";
+ document.getElementById("feedback").textContent=`Bạn nhận được ${{score*20}} XP. Hạng hiện tại: ${{getRank()}}`;
+ document.getElementById("next").classList.add("hidden");
+ document.getElementById("title").textContent="Kết quả trận";
+ const b=document.querySelector("#home>.primary"); b.textContent="Chơi lại"; b.classList.remove("hidden");
+}}
+updateStats();
 </script>
 </body>
 </html>
+"""
+
+path = Path("/mnt/data/index.html")
+path.write_text(page, encoding="utf-8")
+print(f"Đã tạo lại file: {path}")
+print(f"Dung lượng: {path.stat().st_size:,} bytes")
+print("Tên file đã là index.html, sẵn sàng upload lên GitHub.")
