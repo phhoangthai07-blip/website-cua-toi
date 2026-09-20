@@ -1,112 +1,190 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website của tôi</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: #f5f5f7;
-            color: #1d1d1f;
-        }
-
-        .window {
-            width: 90%;
-            max-width: 1100px;
-            min-height: 650px;
-            margin: 60px auto;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 18px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-        }
-
-        .topbar {
-            height: 55px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            border-bottom: 1px solid #ddd;
-            background: rgba(255,255,255,0.7);
-        }
-
-        .dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            background: #ccc;
-        }
-
-        .content {
-            padding: 80px 50px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 52px;
-            margin-bottom: 15px;
-        }
-
-        p {
-            font-size: 20px;
-            color: #666;
-        }
-
-        button {
-            margin-top: 30px;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 12px;
-            background: #0071e3;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0077ed;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Rank - Học Tin Học</title>
+<style>
+:root{
+  --bg:#f5f7fb; --card:rgba(255,255,255,.88); --text:#182033; --muted:#697386;
+  --primary:#4f46e5; --primary2:#7c3aed; --line:#e7eaf1; --good:#16a34a; --bad:#dc2626;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+radial-gradient(circle at 10% 0%,#e9e7ff 0,transparent 30%),
+radial-gradient(circle at 100% 10%,#dff5ff 0,transparent 28%),var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{max-width:1150px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:22px;font-weight:800}.logo span{color:var(--primary)}
+.nav button{border:0;background:transparent;padding:9px 12px;border-radius:10px;cursor:pointer;color:var(--text)}
+.nav button.active,.nav button:hover{background:#eef0ff;color:var(--primary)}
+.container{max-width:1150px;margin:0 auto;padding:35px 20px}
+.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:22px;align-items:stretch}
+.card{background:var(--card);border:1px solid rgba(255,255,255,.8);box-shadow:0 18px 50px rgba(31,41,55,.08);border-radius:24px;padding:28px}
+.hero h1{font-size:46px;line-height:1.05;margin:0 0 14px}.hero p{font-size:18px;color:var(--muted);line-height:1.6}
+.btn{border:0;border-radius:13px;padding:12px 18px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));color:white}
+.btn.secondary{background:#eef0ff;color:var(--primary)}
+.rankbox{text-align:center;display:flex;flex-direction:column;justify-content:center}
+.rank-icon{font-size:62px}.rank-name{font-size:28px;font-weight:900;margin:5px 0}
+.xpbar{height:12px;background:#e8eaf0;border-radius:99px;overflow:hidden;margin:15px 0 7px}.xpfill{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444,#8b5cf6);width:0;transition:.4s}
+.small{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.topic{cursor:pointer;transition:.2s}.topic:hover{transform:translateY(-3px)}
+.topic h3{margin:8px 0}.topic p{color:var(--muted);margin:0}
+.quiz{max-width:820px;margin:0 auto}.question{font-size:25px;font-weight:800;line-height:1.4;margin:10px 0 22px}
+.answers{display:grid;gap:12px}.answer{padding:16px;border:2px solid var(--line);background:white;border-radius:15px;text-align:left;cursor:pointer;font-size:16px}
+.answer:hover{border-color:#a5b4fc}.answer.correct{border-color:var(--good);background:#f0fdf4}.answer.wrong{border-color:var(--bad);background:#fef2f2}
+.hidden{display:none!important}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}.back{cursor:pointer;color:var(--primary);font-weight:700}
+.result{text-align:center}.result .big{font-size:55px;font-weight:900}
+table{width:100%;border-collapse:collapse}th,td{padding:13px;border-bottom:1px solid var(--line);text-align:left}
+.badge{display:inline-block;padding:5px 10px;border-radius:999px;background:#f1f5f9;font-weight:700;font-size:12px}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.hero h1{font-size:36px}.nav{flex-wrap:wrap;gap:8px}}
+.footer{text-align:center;padding:28px 20px 35px;color:#7b8494;font-size:14px}
+.footer strong{color:#4f46e5}
+</style>
 </head>
-
 <body>
+<header>
+  <div class="nav">
+    <div class="logo">IT<span>RANK</span> 🎓</div>
+    <div>
+      <button class="active" onclick="showHome()">Trang chủ</button>
+      <button onclick="showRank()">Xếp hạng</button>
+    </div>
+  </div>
+</header>
 
-    <div class="window">
-
-        <div class="topbar">
-            <div class="dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-        </div>
-
-        <div class="content">
-            <h1>Xin chào 👋</h1>
-
-            <p>
-                Đây là website đầu tiên của tôi.
-            </p>
-
-            <button onclick="alert('Bạn vừa bấm nút!')">
-                Bấm vào đây
-            </button>
-        </div>
-
+<main class="container">
+  <section id="home">
+    <div class="hero">
+      <div class="card">
+        <div class="badge">HỌC TIN HỌC • THI TRẮC NGHIỆM</div>
+        <h1>Học tin học,<br><span style="color:#4f46e5">leo rank</span> mỗi ngày.</h1>
+        <p>Trả lời câu hỏi trắc nghiệm, tích lũy XP và chinh phục các bậc rank từ Đồng đến Chiến Tướng.</p>
+        <button class="btn" onclick="startQuiz()">Bắt đầu làm bài →</button>
+      </div>
+      <div class="card rankbox">
+        <div class="rank-icon" id="rankIcon">🥉</div>
+        <div class="rank-name" id="rankName">Đồng</div>
+        <div class="small" id="levelText">0 XP</div>
+        <div class="xpbar"><div class="xpfill" id="xpFill"></div></div>
+        <div class="small" id="nextText">100 XP để lên rank tiếp theo</div>
+      </div>
     </div>
 
+    <h2>Chủ đề học tập</h2>
+    <div class="grid">
+      <div class="card topic" onclick="startQuiz('Cơ bản')"><div style="font-size:35px">💻</div><h3>Tin học cơ bản</h3><p>Phần cứng, phần mềm, hệ điều hành.</p></div>
+      <div class="card topic" onclick="startQuiz('Internet')"><div style="font-size:35px">🌐</div><h3>Internet</h3><p>Mạng máy tính, trình duyệt, an toàn mạng.</p></div>
+      <div class="card topic" onclick="startQuiz('Office')"><div style="font-size:35px">📊</div><h3>Office</h3><p>Word, Excel, PowerPoint và kỹ năng văn phòng.</p></div>
+    </div>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="quiz">
+      <div class="topline"><span class="back" onclick="showHome()">← Trang chủ</span><span id="progress"></span></div>
+      <div class="card" style="margin-top:16px">
+        <div class="small" id="category"></div>
+        <div class="question" id="question"></div>
+        <div class="answers" id="answers"></div>
+        <div id="feedback" class="small" style="margin-top:16px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="hidden">
+    <div class="card result">
+      <div class="big" id="resultIcon">🎉</div>
+      <h1 id="resultTitle">Hoàn thành!</h1>
+      <p id="resultText"></p>
+      <button class="btn" onclick="showHome()">Về trang chủ</button>
+    </div>
+  </section>
+
+  <section id="ranking" class="hidden">
+    <div class="card">
+      <h1>Bảng xếp hạng</h1>
+      <p class="small">Bản thử nghiệm lưu dữ liệu trên trình duyệt của bạn.</p>
+      <table><thead><tr><th>Hạng</th><th>Người chơi</th><th>Rank</th><th>XP</th></tr></thead>
+      <tbody><tr><td>1</td><td>Bạn</td><td id="rankTable">Đồng</td><td id="xpTable">0</td></tr></tbody></table>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  Phát triển bởi <strong>Pham Hoang Thai</strong>
+</footer>
+
+<script>
+const questions=[
+ {c:"Cơ bản",q:"CPU là viết tắt của cụm từ nào?",a:["Central Processing Unit","Computer Personal Unit","Control Program Utility","Central Program User"],ok:0},
+ {c:"Cơ bản",q:"Thiết bị nào dùng để lưu trữ dữ liệu lâu dài?",a:["RAM","SSD","CPU","GPU"],ok:1},
+ {c:"Cơ bản",q:"Hệ điều hành nào do Microsoft phát triển?",a:["Windows","Ubuntu","Android","macOS"],ok:0},
+ {c:"Internet",q:"HTTPS giúp website có đặc điểm gì?",a:["Tăng dung lượng RAM","Mã hóa kết nối","Tăng tốc CPU","Tắt quảng cáo"],ok:1},
+ {c:"Internet",q:"Trình duyệt web dùng để làm gì?",a:["Duyệt và hiển thị trang web","Sửa phần cứng","Tăng RAM","Biên dịch CPU"],ok:0},
+ {c:"Internet",q:"Mật khẩu nào an toàn hơn?",a:["123456","password","Tên + ngày sinh","Chuỗi dài, khó đoán và duy nhất"],ok:3},
+ {c:"Office",q:"Trong Excel, công thức thường bắt đầu bằng ký hiệu nào?",a:["#","=","@","$"],ok:1},
+ {c:"Office",q:"PowerPoint thường dùng để tạo gì?",a:["Bài trình chiếu","Cơ sở dữ liệu hệ thống","Driver","Hệ điều hành"],ok:0},
+ {c:"Office",q:"Ctrl + C thường dùng để làm gì?",a:["Dán","Sao chép","Lưu","In"],ok:1}
+];
+const ranks=[
+ ["Đồng","🥉",0],["Bạc","🥈",100],["Vàng","🥇",250],["Bạch Kim","💎",450],
+ ["Kim Cương","💠",700],["Tinh Anh","🔥",1000],["Cao Thủ","⚔️",1400],["Chiến Tướng","👑",1900]
+];
+let xp=Number(localStorage.getItem("it_xp")||0), current=[],pos=0,score=0,answered=false;
+
+function getRank(){
+ let r=ranks[0]; for(const x of ranks) if(xp>=x[2]) r=x; return r;
+}
+function updateUI(){
+ const r=getRank(), idx=ranks.indexOf(r), next=ranks[idx+1];
+ document.getElementById("rankIcon").textContent=r[1];
+ document.getElementById("rankName").textContent=r[0];
+ document.getElementById("levelText").textContent=xp+" XP";
+ document.getElementById("rankTable").textContent=r[0];
+ document.getElementById("xpTable").textContent=xp;
+ if(next){
+   const pct=Math.min(100,((xp-r[2])/(next[2]-r[2]))*100);
+   document.getElementById("xpFill").style.width=pct+"%";
+   document.getElementById("nextText").textContent=(next[2]-xp)+" XP để lên "+next[0];
+ }else{
+   document.getElementById("xpFill").style.width="100%";
+   document.getElementById("nextText").textContent="Bạn đã đạt Chiến Tướng!";
+ }
+}
+function hideAll(){["home","quiz","result","ranking"].forEach(x=>document.getElementById(x).classList.add("hidden"))}
+function showHome(){hideAll();document.getElementById("home").classList.remove("hidden");updateUI()}
+function showRank(){hideAll();document.getElementById("ranking").classList.remove("hidden");updateUI()}
+function startQuiz(cat){
+ current=cat?questions.filter(x=>x.c===cat):[...questions];
+ current=current.sort(()=>Math.random()-.5).slice(0,5);pos=0;score=0;
+ hideAll();document.getElementById("quiz").classList.remove("hidden");renderQ();
+}
+function renderQ(){
+ answered=false; const x=current[pos];
+ document.getElementById("progress").textContent=`Câu ${pos+1}/${current.length}`;
+ document.getElementById("category").textContent=x.c;
+ document.getElementById("question").textContent=x.q;
+ document.getElementById("feedback").textContent="";
+ const box=document.getElementById("answers");box.innerHTML="";
+ x.a.forEach((v,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=v;b.onclick=()=>answer(i,b);box.appendChild(b)});
+}
+function answer(i,btn){
+ if(answered)return; answered=true;
+ const x=current[pos], all=[...document.querySelectorAll(".answer")];
+ all[x.ok].classList.add("correct");
+ if(i===x.ok){score++;xp+=20;btn.classList.add("correct");document.getElementById("feedback").textContent="✅ Chính xác! +20 XP";}
+ else{btn.classList.add("wrong");document.getElementById("feedback").textContent="❌ Chưa đúng."}
+ localStorage.setItem("it_xp",xp);updateUI();
+ setTimeout(()=>{pos++; if(pos<current.length)renderQ(); else finish()},650);
+}
+function finish(){
+ hideAll();document.getElementById("result").classList.remove("hidden");
+ document.getElementById("resultText").textContent=`Bạn đúng ${score}/${current.length} câu và nhận được ${score*20} XP. Rank hiện tại: ${getRank()[0]}.`;
+ document.getElementById("resultIcon").textContent=score===current.length?"🏆":score>=3?"🎉":"📚";
+}
+updateUI();
+</script>
 </body>
 </html>
